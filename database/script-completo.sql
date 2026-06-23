@@ -303,12 +303,15 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Retiros')
 BEGIN
     CREATE TABLE Retiros (
-        IdRetiro    BIGINT        NOT NULL IDENTITY(1,1),
-        IdUsuario   BIGINT        NOT NULL,
-        IdMoneda    INT           NOT NULL,
-        Monto       DECIMAL(18,2) NOT NULL,
-        Estado      VARCHAR(20)   NULL DEFAULT 'COMPLETADO',
-        FechaRetiro DATETIME      NULL DEFAULT GETDATE(),
+        IdRetiro    BIGINT         NOT NULL IDENTITY(1,1),
+        IdUsuario   BIGINT         NOT NULL,
+        IdMoneda    INT            NOT NULL,
+        Monto       DECIMAL(18,2)  NOT NULL,
+        MetodoRetiro VARCHAR(100)  NULL,
+        CuentaDestino VARCHAR(200) NULL,
+        Titular     VARCHAR(200)   NULL,
+        Estado      VARCHAR(20)    NULL DEFAULT 'COMPLETADO',
+        FechaRetiro DATETIME       NULL DEFAULT GETDATE(),
         CONSTRAINT PK_Retiros PRIMARY KEY (IdRetiro),
         CONSTRAINT FK_Retiros_Usuarios FOREIGN KEY (IdUsuario) REFERENCES Usuarios(IdUsuario),
         CONSTRAINT FK_Retiros_Monedas FOREIGN KEY (IdMoneda) REFERENCES Monedas(IdMoneda)
@@ -320,12 +323,14 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Recargas')
 BEGIN
     CREATE TABLE Recargas (
-        IdRecarga    BIGINT        NOT NULL IDENTITY(1,1),
-        IdUsuario    BIGINT        NOT NULL,
-        IdMoneda     INT           NOT NULL,
-        Monto        DECIMAL(18,2) NOT NULL,
-        Estado       VARCHAR(20)   NULL DEFAULT 'COMPLETADA',
-        FechaRecarga DATETIME      NULL DEFAULT GETDATE(),
+        IdRecarga        BIGINT         NOT NULL IDENTITY(1,1),
+        IdUsuario        BIGINT         NOT NULL,
+        IdMoneda         INT            NOT NULL,
+        Monto            DECIMAL(18,2)  NOT NULL,
+        MetodoPago       VARCHAR(100)   NULL,
+        NumeroReferencia VARCHAR(200)   NULL,
+        Estado           VARCHAR(20)    NULL DEFAULT 'COMPLETADA',
+        FechaRecarga     DATETIME       NULL DEFAULT GETDATE(),
         CONSTRAINT PK_Recargas PRIMARY KEY (IdRecarga),
         CONSTRAINT FK_Recargas_Usuarios FOREIGN KEY (IdUsuario) REFERENCES Usuarios(IdUsuario),
         CONSTRAINT FK_Recargas_Monedas FOREIGN KEY (IdMoneda) REFERENCES Monedas(IdMoneda)
